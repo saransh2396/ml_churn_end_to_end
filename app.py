@@ -2,11 +2,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import pickle
+import logging
+import time
 
 from config import model_path, encoder_path
 
 
 app = FastAPI()
+logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger(__name__)
 
 
 # Load model
@@ -40,19 +45,32 @@ def home():
 @app.post("/predict")
 def predict(data: CustomerData):
 
-    input_data = pd.DataFrame([data.model_dump()])
+    start_time = time.time()
 
-    # Apply saved encoders
-    input_data["Gender"] = encoders["Gender"].transform(
-        input_data["Gender"]
-    )
+    try:
+        input_data = pd.DataFrame([data.model_dump()])
 
-    input_data["Geography"] = encoders["Geography"].transform(
-        input_data["Geography"]
-    )
+        input_data["Gender"] = encoders["Gender"].transform(
+            input_data["Gender"]
+        )
 
-    prediction = model.predict(input_data)
+        input_data["Geography"] = encoders["Geography"].transform(
+            input_data["Geography"]
+        )
 
-    return {
-        "prediction": int(prediction[0])
-    }
+        prediction = model.predict(input_data)
+
+        response_time = time.time() - start_time
+
+        logger.info(
+            f"Prediction={int(prediction[0])}, "
+            f"ResponseTime={response_time:.4f}s"
+        )
+
+        return {"prediction": int(prediction[0])}
+
+    except Exception as e:
+
+        logger.error(f"Prediction failed: {str(e)}")
+
+        raise
