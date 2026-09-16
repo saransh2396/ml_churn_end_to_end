@@ -34,7 +34,7 @@ class CustomerData(BaseModel):
 
 @app.get("/")
 def home():
-    return {"message": "Churn prediction API is running"}
+    return  {"message": "Churn prediction API is running - v2"}
 
 
 @app.post("/predict")
