@@ -59,8 +59,7 @@ htmlcov/
 Thumbs.db
 
 # Machine learning artifacts and local data
-data/
-models/
+
 checkpoints/
 *.pkl
 *.pickle
