@@ -8,7 +8,7 @@ def test_home():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json()["message"] == "Churn prediction API is running - v2"
+    assert response.json()["message"] == "Churn prediction API is running - CI/CD test"
 
 
 def test_prediction():
