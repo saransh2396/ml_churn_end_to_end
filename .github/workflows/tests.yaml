@@ -1,4 +1,4 @@
-```yaml
+
 name: API Tests
 
 on:
@@ -29,4 +29,4 @@ jobs:
       - name: Run tests
         run: |
           pytest
-```
+
