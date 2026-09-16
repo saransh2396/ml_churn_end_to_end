@@ -61,11 +61,6 @@ Thumbs.db
 # Machine learning artifacts and local data
 
 checkpoints/
-*.pkl
-*.pickle
-*.joblib
-*.h5
-*.hdf5
 *.pt
 *.pth
 *.onnx
